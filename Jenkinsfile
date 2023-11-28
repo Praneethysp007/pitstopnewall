@@ -2,9 +2,9 @@ pipeline {
     agent{
         label 'bhavana'
     }
-    triggers{
-        pollSCM('* * * * *')
-    }
+    // triggers{
+    //     pollSCM('* * * * *')
+    // }
     stages{
         stage('vcs') {
            steps{
@@ -17,61 +17,63 @@ pipeline {
                 sh 'dotnet build src/pitstop.sln'
 
 
-                rtUpload(
-                    serverId: 'myinstance',
-                    spec: """{
-                        "files": [
-                            {
-                                "pattern": "**/*.dll",
-                                "target": "pitstop-generic-local/pitstop-generic-local/"
-                            }
-                        ]
-                    }""" 
+                // rtUpload(
+                //     serverId: 'myinstance',
+                //     spec: """{
+                //         "files": [
+                //             {
+                //                 "pattern": "**/*.dll",
+                //                 "target": "pitstop-generic-local/pitstop-generic-local/"
+                //             }
+                //         ]
+                //     }""" 
 
-                )
+                // )
 
             }
         }
         
-        stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('sonarcube') {
-                sh 'dotnet build src/pitstop.sln sonar:sonar -Dsonar.organization=myorganisationysp -Dsonar.projectKey=myorganisationysp_pitstop'
-                }
-            }    
-        }
+        // stage('SonarQube analysis') {
+        //     steps {
+        //         withSonarQubeEnv('sonarcube') {
+        //         sh 'dotnet build src/pitstop.sln sonar:sonar -Dsonar.organization=myorganisationysp -Dsonar.projectKey=myorganisationysp_pitstop'
+        //         }
+        //     }    
+        // }
          stage(dockerbuildimage){
             steps{
                 sh 'docker compose up'       
             }
         }
-        stage(pushimage){
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'dockerpass', variable: 'mypasswd')]) {
+        // stage(pushimage){
+        //     steps{
+        //         script{
+        //             withCredentials([string(credentialsId: 'dockerpass', variable: 'mypasswd')]) {
 
-                    sh 'docker login -u praneethysp007 -p ${mypasswd}'
+        //             sh 'docker login -u praneethysp007 -p ${mypasswd}'
 
-                    sh 'imagepush.sh'
+        //             sh 'imagepush.sh'
          
-                    }
-                }
-            }   
+        //             }
+        //         }
+        //     }   
             
-        }
-        stage(eksmoduleterraform){
-           steps{
-            sh 'terraform init'
+        // }
+        // stage(eksmoduleterraform){
+        //    steps{
+        //     sh 'terraform init'
 
-            sh 'terraform apply -auto-approve'
+        //     sh 'terraform apply -auto-approve'
 
-            sh 'aws eks update-kubeconfig --region us-east-2 --name pitstop'
-           }
-        }
-        stage(deploy){
-            sh 'cd pitstopproject'
+        //     sh 'aws eks update-kubeconfig --region us-east-2 --name pitstop'
+        //    }
+        // }
+        // stage(deploy){
+        //     steps{
+        //         sh 'cd pitstopproject'
 
-            sh 'kubectl apply -f .'
-        }
+        //         sh 'kubectl apply -f .'
+        //     }  
+        // }
     }
 }
