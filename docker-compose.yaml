@@ -1,0 +1,80 @@
+version: '3'
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    build:
+      context: src/rabbitmq
+      dockerfile: Dockerfile
+
+  # sqlserver:
+  #   image: mcr.microsoft.com/azure-sql-edge
+  #   build:
+  #     context: src/rabbitmq
+  #     dockerfile: Dockerfile
+    
+  # mailserver:
+  #   image: maildev/maildev:1.1.0
+  #   build:
+  #     context: contextPath
+  #     dockerfile: Dockerfile
+  # logserver:
+  #   image: datalust/seq:latest
+  #   build:
+  #     context: contextPath
+  #     dockerfile: Dockerfile
+
+  vehiclemanagementapi:
+    image: pitstop/vehiclemanagementapi:1.0
+    build:
+      context: src/VehicleManagementAPI
+      dockerfile: Dockerfile
+
+  customermanagementapi:
+    image: pitstop/customermanagementapi:1.0
+    build:
+      context: src/CustomerManagementAPI
+      dockerfile: Dockerfile
+  workshopmanagementapi:
+    image: pitstop/workshopmanagementapi:1.0
+    build:
+      context: src/WorkshopManagementAPI
+      dockerfile: Dockerfile
+
+  auditlogservice:
+    image: pitstop/auditlogservice:1.0
+    build:
+      context: src/AuditlogService
+      dockerfile: Dockerfile
+
+  invoiceservice:
+    image: pitstop/invoiceservice:1.0
+    build:
+      context: src/InvoiceService
+      dockerfile: Dockerfile
+
+  notificationservice:
+    image: pitstop/notificationservice:1.0
+    build:
+      context: src/NotificationService
+      dockerfile: Dockerfile
+
+  timeservice:
+    image: pitstop/timeservice:1.0
+    build:
+      context: src/TimeService
+      dockerfile: Dockerfile
+
+  workshopmanagementeventhandler:
+    image: pitstop/workshopmanagementeventhandler:1.0
+    build:
+      context: src/WorkshopManagementEventHandler
+      dockerfile: Dockerfile
+  webapp:
+    image: pitstop/webapp:1.0
+    build:
+      context: src/WebApp
+      dockerfile: Dockerfile
+    
+
+
