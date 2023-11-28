@@ -43,7 +43,8 @@ pipeline {
          stage(dockerbuildimage){
             steps{
                 sh 'cd src'
-                sh 'docker compose up'       
+
+                sh 'docker compose -f docker-compose.yml'       
             }
         }
         // stage(pushimage){
