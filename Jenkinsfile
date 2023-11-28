@@ -42,6 +42,7 @@ pipeline {
         // }
          stage(dockerbuildimage){
             steps{
+                sh 'cd src'
                 sh 'docker compose up'       
             }
         }
