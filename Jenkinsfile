@@ -40,12 +40,12 @@ pipeline {
         //         }
         //     }    
         // }
-         stage(dockerbuildimage){
-            steps{
+        //  stage(dockerbuildimage){
+        //     steps{
 
-                sh 'docker-compose -f docker-compose.yaml up --build'       
-            }
-        }
+        //         sh 'docker-compose -f docker-compose.yaml up --build'       
+        //     }
+        // }
         // stage(pushimage){
         //     steps{
         //         script{
